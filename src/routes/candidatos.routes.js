@@ -3,7 +3,7 @@ import { Router } from "express";
 const candidatosRoutes = Router()
 let candidatos = [
     {
-        id: Math.random() * 1000000,
+        id: Math.floor(Math.random() * 1000000),
         nome: "Capitã Lucimara",
         partido: "PSD",
         idade: 39,
@@ -22,19 +22,36 @@ candidatosRoutes.get("/", (req, res) => {
 });
 
 candidatosRoutes.post("/", (req, res) => {
-    const {nome, partido, idade, concorrente, Propostas} = req.body;
+    const {nome, partido, idade, concorrente, propostas} = req.body;
+
+    if (!nome || !partido) {
+        return res.status(400).send({
+            message: "O nome ou partido não foi preenchido!"
+        });
+    }
+
+    if (idade < 18) {
+        return res.status(400).send({
+            message: "O candidato não possui idade suficiente para participar deste debate!"
+        })
+    }
+
 
     const novoCandidato = {
-        id: candidato.length + 1,
+        id: Math.floor(Math.random() * 1000000),
         nome: nome,
         partido: partido,
         idade: idade,
         concorrente: concorrente,
-        propostas: []
+        propostas: propostas
     };
 
-    novoCandidato.push(novoCandidato)
-    return res.status(201).send(novoCandidato);
+    candidatos.push(novoCandidato)
+    return res.status(201).send({
+        message: "candidato cadastrado com sucesso!",
+        novoCandidato,
+
+    });
 });
 
     candidatosRoutes.delete("/:id", (req, res)=>{
