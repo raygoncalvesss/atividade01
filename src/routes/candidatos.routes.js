@@ -21,6 +21,7 @@ candidatosRoutes.get("/", (req, res) => {
     return res.status(200).json(candidatos);
 });
 
+
 candidatosRoutes.post("/", (req, res) => {
     const {nome, partido, idade, concorrente, propostas} = req.body;
 
@@ -56,7 +57,7 @@ candidatosRoutes.post("/", (req, res) => {
 
     candidatosRoutes.delete("/:id", (req, res)=>{
         const { id } = req.params;
-        const candidatos = candidatos.find((person)=> person.id == id);
+        const candidatos = candidatos.find((politico)=> person.id == id);
 
         
     if (!candidatos) {
